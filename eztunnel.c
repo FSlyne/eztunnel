@@ -211,20 +211,6 @@ int main(int argc, char *argv[]) {
   socklen_t remotelen;
   int cliserv = -1;    /* must be specified on cmd line */
 
-  if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
-    perror("socket creation failed"); 
-    exit(EXIT_FAILURE);
-  }
-
-  memset(&localaddr, 0, sizeof(localaddr)); 
-  memset(&remoteaddr, 0, sizeof(remoteaddr));
-
-  if (bind(sockfd,(struct sockaddr*) &localaddr,sizeof(localaddr))<0)
-  {
-     perror("bind failed");
-     exit(EXIT_FAILURE);
-  }
-
   progname = argv[0];
   
   /* Check command line options */
@@ -278,6 +264,9 @@ int main(int argc, char *argv[]) {
 
   do_debug("Successfully connected to interface %s\n", if_name);
 
+  memset(&localaddr, 0, sizeof(localaddr));
+  memset(&remoteaddr, 0, sizeof(remoteaddr));
+
   remoteaddr.sin_family=AF_INET;
   remoteaddr.sin_port=htons(65001);
   inet_aton(remote_ip,&remoteaddr.sin_addr);
@@ -285,6 +274,12 @@ int main(int argc, char *argv[]) {
   localaddr.sin_family=AF_INET;
   localaddr.sin_addr.s_addr = INADDR_ANY;
   localaddr.sin_port=htons(65001);
+
+  if (bind(sockfd,(struct sockaddr*) &localaddr,sizeof(localaddr))<0)
+  {
+     perror("bind failed");
+     exit(EXIT_FAILURE);
+  }
 
   fd_set rd_set;
   FD_ZERO(&rd_set);
