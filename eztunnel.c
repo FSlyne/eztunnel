@@ -167,7 +167,7 @@ void *tap2netThread(void *vargp) {
       socklen_t slen=sizeof(remoteaddr);
 
       while(1) {
-      nread = cread(tap_fd, buffer, BUFSIZE);
+      nread = read(tap_fd, buffer, BUFSIZE);
 
       tap2net++;
       do_debug("TAP2NET %lu: Read %d bytes from the tap interface\n", tap2net, nread);
@@ -193,7 +193,7 @@ void *net2tapThread(void *vargp) {
       do_debug("NET2TAP %lu: Read %d bytes from the network\n", net2tap, nread);
 
       /* now buffer[] contains a full packet or frame, write it into the tun/tap interface */
-      nwrite = cwrite(tap_fd, buffer, nread);
+      nwrite = write(tap_fd, buffer, nread);
       do_debug("NET2TAP %lu: Written %d bytes to the tap interface\n", net2tap, nwrite);
       }
       return 0;
