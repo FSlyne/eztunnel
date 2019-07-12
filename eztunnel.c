@@ -275,6 +275,7 @@ int main(int argc, char *argv[]) {
   localaddr.sin_addr.s_addr = INADDR_ANY;
   localaddr.sin_port=htons(65001);
 
+  sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP); 
   if (bind(sockfd,(struct sockaddr*) &localaddr,sizeof(localaddr))<0)
   {
      perror("bind failed");
