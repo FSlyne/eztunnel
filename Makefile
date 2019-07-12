@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -std=c99 -D _BSD_SOURCE -D _XOPEN_SOURCE
+CFLAGS=-std=c99 -D _BSD_SOURCE -D _XOPEN_SOURCE
 LDFLAGS=-lpthread
 DEPS=
 
