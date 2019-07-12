@@ -15,6 +15,7 @@
 #include <sys/time.h>
 #include <errno.h>
 #include <stdarg.h>
+#include <netinet/tcp.h>
 #include <pthread.h>
 
 /* buffer for reading from tun/tap interface, must be >= 1500 */
@@ -301,7 +302,7 @@ int main(int argc, char *argv[]) {
     /* Server, wait for connections */
 
     /* avoid EADDRINUSE error on bind() */
-    if(setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&optval, sizeof(optval)) < 0) {
+    if(setsockopt(sock_fd, IPPROTO_TCP, TCP_NODELAY, (char *)&optval, sizeof(optval)) < 0) {
       perror("setsockopt()");
       exit(1);
     }
